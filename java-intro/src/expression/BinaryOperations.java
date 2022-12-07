@@ -2,10 +2,10 @@ package expression;
 
 import java.util.Objects;
 
-public class BinaryOperations implements AllExpressions {
+public abstract class BinaryOperations implements AllExpressions, Expression, TripleExpression {
 
-    private final AllExpressions expression1;
-    private final AllExpressions expression2;
+    protected final AllExpressions expression1;
+    protected final AllExpressions expression2;
     private final String op;
 
     protected BinaryOperations(AllExpressions expression1, AllExpressions expression2, String op) {
@@ -38,33 +38,13 @@ public class BinaryOperations implements AllExpressions {
 
     @Override
     public int evaluate(int x) {
-        switch (op) {
-            case "+":
-                return expression1.evaluate(x) + expression2.evaluate(x);
-            case "-":
-                return expression1.evaluate(x) - expression2.evaluate(x);
-            case "/":
-                return expression1.evaluate(x) / expression2.evaluate(x);
-            case "*":
-                return expression1.evaluate(x) * expression2.evaluate(x);
-            default:
-                return 0;
-        }
+        return evalOperation(expression1.evaluate(x), expression2.evaluate(x));
     }
 
     @Override
     public int evaluate(int x, int y, int z) {
-        switch (op) {
-            case "+":
-                return expression1.evaluate(x, y, z) + expression2.evaluate(x, y, z);
-            case "-":
-                return expression1.evaluate(x, y, z) - expression2.evaluate(x, y, z);
-            case "/":
-                return expression1.evaluate(x, y, z) / expression2.evaluate(x, y, z);
-            case "*":
-                return expression1.evaluate(x, y, z) * expression2.evaluate(x, y, z);
-            default:
-                return 0;
-        }
+        return evalOperation(expression1.evaluate(x, y, z), expression2.evaluate(x, y, z));
     }
+
+    protected abstract int evalOperation(int x, int y);
 }
