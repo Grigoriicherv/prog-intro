@@ -2,7 +2,7 @@ package expression;
 
 public class Const implements AllExpressions, Expression, TripleExpression {
 
-    int constant;
+    final private int constant;
 
     public Const(int constant) {
         this.constant = constant;

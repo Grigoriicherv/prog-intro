@@ -105,7 +105,6 @@ public class MNKBoard implements Board, Position {
         return 0 <= move.getRow() && move.getRow() < m
                 && 0 <= move.getCol() && move.getCol() < n
                 && field[move.getRow()][move.getCol()] == Cell.E;
-
     }
 
     @Override

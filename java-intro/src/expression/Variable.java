@@ -1,9 +1,9 @@
 package expression;
 
 public class Variable implements AllExpressions, Expression, TripleExpression {
-    String variable;
+    final private String variable;
 
-    Variable(String variable) {
+    public Variable(String variable) {
         this.variable = variable;
     }
 
