@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class BinaryOperations implements AllExpressions {
 
-    AllExpressions expression1;
-    AllExpressions expression2;
-    String op;
+    private final AllExpressions expression1;
+    private final AllExpressions expression2;
+    private final String op;
 
-    BinaryOperations(AllExpressions expression1, AllExpressions expression2, String op) {
+    protected BinaryOperations(AllExpressions expression1, AllExpressions expression2, String op) {
         this.expression1 = expression1;
         this.expression2 = expression2;
         this.op = op;
