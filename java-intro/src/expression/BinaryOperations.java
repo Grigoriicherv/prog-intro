@@ -2,10 +2,11 @@ package expression;
 
 import java.util.Objects;
 
-public abstract class BinaryOperations implements AllExpressions, Expression, TripleExpression {
 
-    protected final AllExpressions expression1;
-    protected final AllExpressions expression2;
+public abstract class BinaryOperations extends BinaryEvaluate implements AllExpressions, Expression, TripleExpression{
+
+    private final AllExpressions expression1;
+    private final AllExpressions expression2;
     private final String op;
 
     protected BinaryOperations(AllExpressions expression1, AllExpressions expression2, String op) {
@@ -25,17 +26,10 @@ public abstract class BinaryOperations implements AllExpressions, Expression, Tr
         BinaryOperations bp = (BinaryOperations) expression;
         return expression1.equals(bp.expression1) && expression2.equals(bp.expression2) && op.equals(bp.op);
     }
-
-    @Override
-    public String toString() {
-        return "(" + expression1.toString() + " " + op + " " + expression2.toString() + ")";
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(expression1, expression2, op);
     }
-
     @Override
     public int evaluate(int x) {
         return evalOperation(expression1.evaluate(x), expression2.evaluate(x));
@@ -45,6 +39,8 @@ public abstract class BinaryOperations implements AllExpressions, Expression, Tr
     public int evaluate(int x, int y, int z) {
         return evalOperation(expression1.evaluate(x, y, z), expression2.evaluate(x, y, z));
     }
-
-    protected abstract int evalOperation(int x, int y);
+    @Override
+    public String toString() {
+        return "(" + expression1.toString() + " " + op + " " + expression2.toString() + ")";
+    }
 }
