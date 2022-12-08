@@ -24,50 +24,79 @@ public class Match {
         this.n = n;
         this.k = k;
     }
+
+    private String countingWins(int result, int countWins1, int countWins2, String playerX, String playerO){
+        switch (result) {
+            case 1:
+                countWins1++;
+                System.out.println((numbOfGames + 1) + " game won "+ playerX);
+                break;
+            case 2:
+                countWins2++;
+                System.out.println((numbOfGames + 1) + " game won "+ playerO);
+                break;
+            case 0:
+                System.out.println("Draw");
+                break;
+
+            case -2:
+                return(playerX+" won, because " +playerO+ " give up");
+
+            case -3:
+                return (playerO+" won, because " +playerX+ " give up");
+
+            default:
+                throw new AssertionError("Unknown result " + result);
+        }
+        if (swapPlayers){
+            this.countWins1 = countWins1;
+            this.countWins2 = countWins2;
+        }
+        else{
+            this.countWins2 = countWins1;
+            this.countWins1 = countWins2;
+        }
+        swapPlayers = !swapPlayers;
+        numbOfGames++;
+        if (this.countWins1 == numbOfWins) {
+            return ("player1 won " + numbOfWins + " games !!! And player2 won "
+                    + this.countWins2 + " games");
+        }
+        else if (this.countWins2 == numbOfWins) {
+            return ( "player2 won " + numbOfWins + " games !!! And player1 won " +
+                    this.countWins1 + " games");
+        }
+        else{return null;}
+    }
+
+    private void swaping(){
+        Player temp;
+
+        temp = player1;
+        player1 = player2;
+        player2 = temp;
+
+    }
     public String StartGame() {
-        while (true) {
+        String temp;
+        do {
             final int result = new TwoPlayerGame(
                     new MNKBoard(m,n,k),
                     player1,
-                    player2,
-                    swapPlayers
+                    player2
             ).play(true);
-            switch (result) {
-                case 1:
 
-                    countWins1++;
-                    System.out.println((numbOfGames + 1) + " game won player1");
-                    swapPlayers = !swapPlayers;
-                    break;
-                case 2:
-
-                    countWins2++;
-                    System.out.println((numbOfGames + 1) + " game won player2");
-                    swapPlayers = !swapPlayers;
-                    break;
-                case 0:
-                    System.out.println("Draw");
-                    swapPlayers = !swapPlayers;
-                    break;
-
-                case -2:
-                    return("First player won, because second player give up");
-                case -3:
-                    return("Second player won, because first player give up");
-
-                default:
-                    throw new AssertionError("Unknown result " + result);
+            if (swapPlayers){
+                temp = countingWins(result, countWins1, countWins2, "player1", "player2");
             }
-            numbOfGames++;
-            if (countWins1 == numbOfWins) {
-                return ("First player won " + numbOfWins + " games !!! And Second player won "
-                        + countWins2 + " games");
+            else{
+                temp = countingWins(result, countWins2, countWins1, "player2", "player1");
             }
-            if (countWins2 == numbOfWins) {
-                return ("Second player won " + numbOfWins + " games !!! And First player won " +
-                        countWins1 + " games");
+            if (temp == null){
+                swaping();
             }
-        }
+        }while (temp == null);
+        return temp;
     }
 
 }
