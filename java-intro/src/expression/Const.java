@@ -9,10 +9,12 @@ public class Const implements AllExpressions, Expression, TripleExpression {
     }
 
 
+
     @Override
     public int evaluate(int x) {
         return constant;
     }
+
 
 
     @Override

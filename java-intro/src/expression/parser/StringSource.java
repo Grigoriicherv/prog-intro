@@ -1,4 +1,4 @@
-package expression;
+package expression.parser;
 
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
@@ -23,6 +23,6 @@ public class StringSource implements CharSource {
 
     @Override
     public IllegalArgumentException error(final String message) {
-        return new IllegalArgumentException(pos + ": " + message);
+        return new IllegalArgumentException(pos + ": " + message + "|"+ data+"|");
     }
 }

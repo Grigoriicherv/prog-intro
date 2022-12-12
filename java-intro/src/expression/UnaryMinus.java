@@ -2,12 +2,13 @@ package expression;
 
 import java.util.Objects;
 
-public class UnaryMinus implements AllExpressions{
+public class UnaryMinus implements AllExpressions, TripleExpression{
 
 
 
-    private final AllExpressions expression;
-    UnaryMinus (AllExpressions expression){
+
+    private  final AllExpressions expression;
+    public UnaryMinus (AllExpressions expression){
         this.expression = expression;
     }
 
@@ -40,6 +41,6 @@ public class UnaryMinus implements AllExpressions{
 
     @Override
     public String toString() {
-        return  "-"+expression.toString() ;
+        return  "-"+"("+expression.toString()+")" ;
     }
 }
