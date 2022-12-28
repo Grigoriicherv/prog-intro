@@ -10,7 +10,10 @@ public class StringSource implements CharSource {
     public StringSource(final String data) {
         this.data = data;
     }
-
+    @Override
+    public int getPos(){
+        return pos;
+    }
     @Override
     public boolean hasNext() {
         return pos < data.length();
@@ -23,6 +26,6 @@ public class StringSource implements CharSource {
 
     @Override
     public IllegalArgumentException error(final String message) {
-        return new IllegalArgumentException(pos + ": " + message + "|"+ data+"|");
+        return new IllegalArgumentException(pos + ": " + message+ "|"+data+"|");
     }
 }

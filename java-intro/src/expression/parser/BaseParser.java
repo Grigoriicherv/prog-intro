@@ -1,5 +1,7 @@
 package expression.parser;
 
+import expression.exceptions.ParsingException;
+
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
  */
@@ -31,10 +33,22 @@ public class BaseParser {
         return false;
     }
 
+    protected void expextBetween(char start, char end){
+        if (!between(start, end)){
+            throw new ParsingException("Expected that ch between'" + (char)start +" and " + (char)end + "', found '" + (char) ch + "'");
+        }
+    }
     protected void expect(final char expected) {
         if (!take(expected)) {
-            throw error("Expected '" + expected + "', found '" + (int) ch + "'");
+            throw error("Expected '" + expected + "', found '" + (char) ch + "'");
         }
+    }
+    protected boolean isItWhiteSpase (){
+        return Character.isWhitespace(ch);
+    }
+
+    protected int getPosition(){
+        return this.source.getPos()-1;
     }
 
     protected void expect(final String value) {
@@ -42,7 +56,6 @@ public class BaseParser {
             expect(c);
         }
     }
-
     protected boolean eof() {
         return take(END);
     }

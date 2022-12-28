@@ -2,7 +2,7 @@ package expression;
 
 import java.util.Objects;
 
-public class UnaryMinus implements AllExpressions, TripleExpression{
+public class UnaryMinus extends UnaryEvaluate implements AllExpressions, TripleExpression{
 
 
 
@@ -20,7 +20,7 @@ public class UnaryMinus implements AllExpressions, TripleExpression{
 
     @Override
     public int evaluate(int x, int y, int z) {
-        return -expression.evaluate(x,y,z);
+        return evalOperation(expression.evaluate(x,y,z));
     }
 
     @Override
@@ -42,5 +42,10 @@ public class UnaryMinus implements AllExpressions, TripleExpression{
     @Override
     public String toString() {
         return  "-"+"("+expression.toString()+")" ;
+    }
+
+    @Override
+    protected int evalOperation(int x) {
+        return -x;
     }
 }
