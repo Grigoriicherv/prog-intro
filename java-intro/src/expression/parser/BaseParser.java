@@ -33,7 +33,7 @@ public class BaseParser {
         return false;
     }
 
-    protected void expextBetween(char start, char end){
+    protected void expextBetween(char start, char end) throws ParsingException {
         if (!between(start, end)){
             throw new ParsingException("Expected that ch between'" + (char)start +" and " + (char)end + "', found '" + (char) ch + "'");
         }

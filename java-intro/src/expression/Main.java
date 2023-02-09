@@ -1,6 +1,7 @@
 package expression;
 
 import expression.exceptions.Overflow;
+import expression.exceptions.ParsingException;
 import expression.parser.ExpressionParser;
 
 import java.util.Scanner;
@@ -14,7 +15,11 @@ public class Main {
 
         ExpressionParser expr = new ExpressionParser();
 
-        System.out.println(expr.parse("5set5").evaluate(1, 2, 3));
+        try {
+            System.out.println(expr.parse("5set5").evaluate(1, 2, 3));
+        } catch (ParsingException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }

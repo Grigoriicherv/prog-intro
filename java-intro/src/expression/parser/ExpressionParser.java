@@ -4,11 +4,11 @@ import expression.*;
 import expression.exceptions.*;
 
 public final class ExpressionParser implements TripleParser {
-    public TripleExpression parse(final String source) {
+    public TripleExpression parse(final String source) throws ParsingException {
         return (TripleExpression) parse(new StringSource(source));
     }
 
-    public static AllExpressions parse(final CharSource source) {
+    public static AllExpressions parse(final CharSource source) throws ParsingException {
         return new Expressionsparser(source).parseExpressions();
     }
 
@@ -17,7 +17,7 @@ public final class ExpressionParser implements TripleParser {
             super(source);
         }
 
-        public AllExpressions parseExpressions() {
+        public AllExpressions parseExpressions() throws ParsingException {
             skipWhitespace();
             final AllExpressions result = parseSomethingonExpression();
             skipWhitespace();
@@ -27,7 +27,7 @@ public final class ExpressionParser implements TripleParser {
             checkExceptionsinExpressions();
             throw new ParsingException ("End of parser");
         }
-        private AllExpressions parseSomethingonExpression(){
+        private AllExpressions parseSomethingonExpression() throws ParsingException {
             skipWhitespace();
             AllExpressions result = parseExpression();
             if (skipWhitespacewithBool()){
@@ -55,7 +55,7 @@ public final class ExpressionParser implements TripleParser {
             return result;
         }
 
-        private AllExpressions parseExpression() {
+        private AllExpressions parseExpression() throws ParsingException {
             skipWhitespace();
             AllExpressions result = parseTerm();
             skipWhitespace();
@@ -78,7 +78,7 @@ public final class ExpressionParser implements TripleParser {
             }
             return result;
         }
-        private AllExpressions parseTerm(){
+        private AllExpressions parseTerm() throws ParsingException {
             skipWhitespace();
             AllExpressions result = parseValue();
             skipWhitespace();
@@ -102,7 +102,7 @@ public final class ExpressionParser implements TripleParser {
             return result;
         }
 
-        private AllExpressions parseValue() {
+        private AllExpressions parseValue() throws ParsingException {
             skipWhitespace();
             final AllExpressions result;
             if (take('-')){
@@ -176,7 +176,7 @@ public final class ExpressionParser implements TripleParser {
             }
             return temp;
         }
-        private void checkExceptionsinTerms(){
+        private void checkExceptionsinTerms() throws ParsingException {
             if (test('*') || test('/') || test('+')){
                 throw new ParsingException ("No second argument in operation"+" on position "+ super.getPosition());
             } else if (test(')')) {
@@ -185,7 +185,7 @@ public final class ExpressionParser implements TripleParser {
                 throw new ParsingException ("No second argument in operation"+" in the end of source");
             }
         }
-        private void checkExceptionsinExpression(){
+        private void checkExceptionsinExpression() throws ParsingException {
             if(test('*') || test('/') || test('+')){
                 throw new ParsingException ("No second argument in operation"+" on position "+ super.getPosition());
             } else if (test(')')) {
@@ -194,7 +194,7 @@ public final class ExpressionParser implements TripleParser {
                 throw new ParsingException ("No second argument in operation"+" in the end of source ");
             }
         }
-        private void checkExceptionsinExpressions(){
+        private void checkExceptionsinExpressions() throws ParsingException {
             if (test(')')){
                 throw new ParsingException ("No open brackets");
             } else if (between('0','9')) {
