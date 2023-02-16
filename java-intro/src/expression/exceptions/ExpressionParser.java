@@ -39,13 +39,10 @@ public final class ExpressionParser implements TripleParser {
                     final AllExpressions result2 = parseExpression();
                     result  = new Set(result, result2);
 
-                }
-                else{
-                    take();
-                    expect("lear");
+                } else  {
+                    expect("clear");
                     final AllExpressions result2 = parseExpression();
                     result = new Clear(result, result2);
-
                 }
             }
             return result;
@@ -101,7 +98,15 @@ public final class ExpressionParser implements TripleParser {
         private AllExpressions parseValue() throws ParsingException {
             skipWhitespace();
             final AllExpressions result;
-            if (take('-')){
+            if (take('c')){
+                expect("ount");
+                if (test('(') || test (' ')){
+                    result = parseValue();
+                    return new Count(result);
+                }
+                throw new ParsingException("Use count in correct format");
+            }
+            else if (take('-')){
                 if (between('0', '9')){
                     final StringBuilder sb = new StringBuilder();
                     sb.append('-');
@@ -126,7 +131,7 @@ public final class ExpressionParser implements TripleParser {
             } else if (between('0', '9')) {
                 final StringBuilder sb = new StringBuilder();
                 takeDigits(sb);
-                if (test('s') || test('c')){
+                if (test('s') || test('c')) {
                     throw new ParsingException("You have to do spase before set or clear");
                 }
                 try {
@@ -152,7 +157,7 @@ public final class ExpressionParser implements TripleParser {
                 if (between('*', '/')){
                     throw new ParsingException ("No first argument"+" on position "+ super.getPosition());
                 } else {
-                    throw new ParsingException("No open brackets");
+                    throw new ParsingException("No open brackets"+ "|" + super.source);
                 }
             } else{
                 throw new ParsingException("No such symbol on position " + super.getPosition());
